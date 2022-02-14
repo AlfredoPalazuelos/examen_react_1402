@@ -27,7 +27,7 @@ class Menu extends React.Component {
         <Container fluid>
           <Navbar.Brand>Menu  <img
             className="logo-image"
-            src="./assets/logo.png"
+            src='src/assets/images/logo.png' alt='' className='logo'
           /></Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           <Navbar.Offcanvas

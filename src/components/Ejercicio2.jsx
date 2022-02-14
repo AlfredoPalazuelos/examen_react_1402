@@ -5,34 +5,45 @@ class Ejercicio2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      img: '',
       marca: '',
-      sistemaoperativo: '',
-      dimensiones: '',
-      almacenamiento: '',
       tableData: [],
+      listaOpciones: [],
+      trajetaDatos: []
     };
 
-    this.insertar = this.insertar.bind(this);
+    
   }
 
-  insertar() {
-    this.setState({});
-  }
 
-  async componentDidMount(){
+  async componentDidMount() {
+    const response = await fetch(
+      'https://api-mobilespecs.azharimm.site/v2/top-by-fans'
+    );
+    const responseData = await response.json();
+    this.setState({ tableData: responseData });
 
-    const response= await fetch('https://api-mobilespecs.azharimm.site/v2/top-by-fans');
-    const responseData= await response.json();
-    this.setState({tableData: responseData});
-
+    const lista = await fetch(
+      'https://api-mobilespecs.azharimm.site/v2/brands'
+    );
+    const listaresponse = await lista.json();
+    this.setState({ listaOpciones: listaresponse })
   }
   async cambiarmovil(item) {
-    const response= await fetch('http://api-mobilespecs.azharimm.site/v2/search?query= '+{item});
-    const responseData= await response.json();
-    this.setState({tableData: responseData});
+    const tarjeta = await fetch(
+      'http://api-mobilespecs.azharimm.site/v2/search?query= ' + { item }
+    );
+    const tarjetadata = await tarjeta.json();
+    this.setState({ trajetaDatos: tarjetadata });
     const movil = item.phone_name;
-    this.setState({ movil: movil });
+    this.setState({ marca: movil });
+  }
+
+
+  componentWillUnmount(){
+
+    localStorage.setItem('movil',this.state.marca);
+
+
   }
 
   render() {
@@ -97,27 +108,35 @@ class Ejercicio2 extends React.Component {
         <Form.Group className="mb-3">
           <Form.Label>Marcas</Form.Label>
           <Form.Select>
-            <option></option>
+            {this.state.listaOpciones.map((item) => {
+              return <option>{item.brand_name}</option>
+            })}
           </Form.Select>
         </Form.Group>
 
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>Marca</th>
               <th>Modelo</th>
+              <th>Descripcion</th>
             </tr>
           </thead>
           <tbody>
-
+            {this.state.tableData.map((item) => {
+              return (
+                <tr onClick={() => this.cambiarmovil(item)}>
+                  <td>{item.phone_name}</td>
+                  <td>{item.slug}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </Table>
         <Card style={{ width: '18rem' }}>
           <Card.Body>
             <Card.Title>{this.state.phone_name}</Card.Title>
-            <Card.Text>
-                Descripcion: {this.state.slug}
-            </Card.Text>
+            <Card.Text>Descripcion: {this.state.slug}</Card.Text>
+            <Button variant="primary" type="button" onClick={this.guardar}>Guardar</Button>
           </Card.Body>
         </Card>
       </Container>

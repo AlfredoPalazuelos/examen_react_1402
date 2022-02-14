@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from 'react-bootstrap/esm/Button';
+import { Form, Button, Table, Container, Card } from 'react-bootstrap';
 
 class Ejercicio3 extends React.Component {
   constructor(props) {
@@ -44,6 +46,16 @@ class Ejercicio3 extends React.Component {
         <ul>
           <li>{this.state.movil}</li>
         </ul>
+
+        <Card style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Movil gurdado</Card.Title>
+            <Card.Text>
+              {this.state.movil}
+            </Card.Text>
+              <Button variant="primary" type="button" onClick={this.borrar}>Borrar</Button>
+          </Card.Body>
+        </Card>
       </div>
     );
   }
