@@ -14,7 +14,7 @@ import {
 import {MenuElements} from '../data/MenuElements';
 import uuid from 'react-uuid';
 import { Link } from 'react-router-dom';
-import {logo} from '../src/assets/images/logo';
+
 
 class Menu extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Menu extends React.Component {
         <Container fluid>
           <Navbar.Brand>Menu  <img
             className="logo-image"
-            src="logo"
+            src="./assets/logo.png"
           /></Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           <Navbar.Offcanvas

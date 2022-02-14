@@ -1,15 +1,15 @@
 import React from 'react';
-import { Form, Button, Table,Container,Card } from 'react-bootstrap';
+import { Form, Button, Table, Container, Card } from 'react-bootstrap';
 
 class Ejercicio2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      img:'',
+      img: '',
       marca: '',
-      sistemaoperativo:'',
-      dimensiones:'',
-      almacenamiento:'',
+      sistemaoperativo: '',
+      dimensiones: '',
+      almacenamiento: '',
       tableData: [],
     };
 
@@ -20,14 +20,17 @@ class Ejercicio2 extends React.Component {
     this.setState({});
   }
 
-  async componentDidMount() {
-    const response = await fetch(
-      'https://api-mobilespecs.azharimm.site/v2/top-by-fans'
-    );
-    const responseData = await response.json();
-    this.setState({ tableData: responseData });
+  async componentDidMount(){
+
+    const response= await fetch('https://api-mobilespecs.azharimm.site/v2/top-by-fans');
+    const responseData= await response.json();
+    this.setState({tableData: responseData});
+
   }
-  cambiarmovil(item) {
+  async cambiarmovil(item) {
+    const response= await fetch('http://api-mobilespecs.azharimm.site/v2/search?query= '+{item});
+    const responseData= await response.json();
+    this.setState({tableData: responseData});
     const movil = item.phone_name;
     this.setState({ movil: movil });
   }
@@ -106,23 +109,14 @@ class Ejercicio2 extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.tableData.map((item) => {
-              return (
-                <tr onClick={() => this.cambiarmovil(item)}>
-                  <td>{item.detail.brand}</td>
-                  <td>{item.detail.phone_name}</td>
-                </tr>
-              );
-            })}
+
           </tbody>
         </Table>
         <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src={this.state.img} />
           <Card.Body>
-            <Card.Title>{this.state.titulo}</Card.Title>
+            <Card.Title>{this.state.phone_name}</Card.Title>
             <Card.Text>
-              Pelicula del director {this.state.director} y del año{' '}
-              {this.state.año}
+                Descripcion: {this.state.slug}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -132,3 +126,4 @@ class Ejercicio2 extends React.Component {
 }
 
 export default Ejercicio2;
+
